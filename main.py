@@ -5,6 +5,7 @@ from aiogram.filters.command import Command
 import config
 from keyboard import kb1
 from random_fox import fox
+from random import randint
 API_TOKEN = config.token
 
 # Включаем логирование, чтобы видеть сообщения в консоли
@@ -25,6 +26,12 @@ async def send_ura(message: types.Message):
     await message.answer("УРАААА! Я эхобот на aiogram 3. Отправь мне любое сообщение, и я повторю его.")
 
 
+@dp.message(F.text.lower() == "num")
+async def send_random(message: types.Message):
+    number = randint(1, 10)
+    await message.answer(f"{number}")
+
+
 @dp.message(Command("инфо"))
 async def send_info(message: types.Message):
     await message.answer('Я бот, созданный отвечать тебе')
@@ -42,6 +49,19 @@ async def cmd_fox_command(message: types.Message):
 
 
 @dp.message(F.text)
+async def echo(message: types.Message):
+    if "ура" in message.text:
+        await message.answer("УРАААА!")
+
+    elif message.text == "инфо":
+        user_name = message.chat.id
+        print(user_name)
+        await message.answer(str(user_name))
+    else:
+        await message.answer(message.text)
+
+
+@dp.message(F.text)
 async def msg_echo(message: types.Message):
     msg_user = message.text.strip().lower()
     if "привет" in msg_user:
@@ -52,7 +72,6 @@ async def msg_echo(message: types.Message):
         await message.answer("Я бот")
     else:
         await message.answer("Я не знаю такого слова")
-
 
 
 async def main():
