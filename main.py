@@ -49,19 +49,6 @@ async def cmd_fox_command(message: types.Message):
 
 
 @dp.message(F.text)
-async def echo(message: types.Message):
-    if "ура" in message.text:
-        await message.answer("УРАААА!")
-
-    elif message.text == "инфо":
-        user_name = message.chat.id
-        print(user_name)
-        await message.answer(str(user_name))
-    else:
-        await message.answer(message.text)
-
-
-@dp.message(F.text)
 async def msg_echo(message: types.Message):
     msg_user = message.text.strip().lower()
     if "привет" in msg_user:
@@ -70,8 +57,12 @@ async def msg_echo(message: types.Message):
         await message.answer("Пока-пока")
     elif "ты кто" in msg_user:
         await message.answer("Я бот")
+    elif message.text == "инфо":
+        user_name = message.chat.id
+        print(user_name)
+        await message.answer(str(user_name))
     else:
-        await message.answer("Я не знаю такого слова")
+        await message.answer(message.text)
 
 
 async def main():
